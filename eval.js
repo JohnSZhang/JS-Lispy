@@ -2,8 +2,10 @@ module.exports = {
   eval: function (x) {
     var self = this;
     var env = global.environment;
-    if (env.hasOwnProperty(x)) {
+    if (env.symbols.hasOwnProperty(x)) {
       // if it's an environmental variable, return it
+      return env.symbols[x];
+    } else if (env.hasOwnProperty(x)) {
       return env[x];
     } else if (!Array.isArray(x)) {
       // if it is a list
@@ -20,14 +22,17 @@ module.exports = {
       return self.eval(expression, env);
     } else if (x[0] === 'define') {
       // defining more environmental variables
-      env[x[1]] === self.eval(x[1], env);
+      var result = self.eval(x[2], env);
+      env.symbols[x[1]] = result;
+      return result
     } else {
       // else we are processing the proc
       var proc = self.eval(x[0], env);
+
       var args = x.slice(1).map(function(arg){
-        self.eval(arg, env);
+        return self.eval(arg, env);
       });
-      return proc.call(this, args);
+      return proc.apply(this, args);
     }
   }
 }

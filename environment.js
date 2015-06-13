@@ -75,5 +75,8 @@ module.exports = {
   },
   'symbol?': function () {
     return typeof a === 'string';
+  },
+  symbols: {
+    
   }
 }
