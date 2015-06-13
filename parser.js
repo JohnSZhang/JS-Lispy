@@ -6,10 +6,10 @@ module.exports = {
 
   parse: function (program) {
     // returns scheme expression from string
-    return readFromTokens(tokenize(program));
-  }
+    return this.readFromTokens(this.tokenize(program));
+  },
 
-  readFromTokens(tokens): function () {
+  readFromTokens: function (tokens) {
     // read expression from an array of tokens
     if (tokens.length === 0) {
       throw 'unexpected EOF while reading';

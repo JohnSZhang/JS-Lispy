@@ -62,7 +62,7 @@ module.exports = {
   'list': function () {
     return Array.prototype.slice.call(arguments);
   },
-  'list?': Array.prototype.isArray,
+  'list?': Array.isArray,
   'map': Array.prototype.map,
   'null?': function (a) {
     return a == [];
