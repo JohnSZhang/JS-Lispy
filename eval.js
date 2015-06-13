@@ -4,8 +4,8 @@ module.exports = {
     var env = global.environment;
     if (env.hasOwnProperty(x)) {
       // if it's an environmental variable, return it
-      return env(x);
-    } else if (Array.isArray(x)) {
+      return env[x];
+    } else if (!Array.isArray(x)) {
       // if it is a list
       return x;
     } else if (x[0] === 'quote') {
@@ -24,10 +24,10 @@ module.exports = {
     } else {
       // else we are processing the proc
       var proc = self.eval(x[0], env);
-      var arguments = x.slice(1).map(function(arg){
+      var args = x.slice(1).map(function(arg){
         self.eval(arg, env);
       });
-      return proc.call(this, arguments);
+      return proc.call(this, args);
     }
   }
 }

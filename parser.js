@@ -1,12 +1,15 @@
 module.exports = {
   tokenize: function (string) {
     // converts a string of characters into an array of tokens
-    return string.replace('(', ' ( ').replace(')', ' ) ').split(' +');
+    var regex = /\s+/
+    return string.replace('(', ' ( ').replace(')', ' ) ').trim().split(regex);
   },
 
   parse: function (program) {
     // returns scheme expression from string
-    return this.readFromTokens(this.tokenize(program));
+    var tokens = this.tokenize(program);
+    var expression = this.readFromTokens(tokens);
+    return expression;
   },
 
   readFromTokens: function (tokens) {
@@ -18,7 +21,7 @@ module.exports = {
     if ('(' === token) {
       var List = [];
       while (tokens[0] !== ')') {
-        List.push(readFromTokens(tokens)); // recurisvely read the expressions
+        List.push(this.readFromTokens(tokens)); // recurisvely read the expressions
       }
       tokens.shift(); // drop the closing paren )
       return List
